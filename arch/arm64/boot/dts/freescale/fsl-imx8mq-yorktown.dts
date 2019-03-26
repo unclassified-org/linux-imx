@@ -31,6 +31,102 @@
 		gpios = <&gpio3 13 GPIO_ACTIVE_LOW>;
 		status = "okay";
 	};
+
+	yorktown-tpu {
+		compatible = "google,yorktown-tpu";
+
+		akira0 {
+			compatible = "google,akira";
+			status = "okay";
+			tpu-gpios = <&akira0 1 GPIO_ACTIVE_HIGH>, // pmic
+			            <&akira0 0 GPIO_ACTIVE_LOW>;   // reset
+		};
+
+		akira1 {
+			compatible = "google,akira";
+			status = "okay";
+			tpu-gpios = <&akira1 1 GPIO_ACTIVE_HIGH>, // pmic
+			            <&akira1 0 GPIO_ACTIVE_LOW>;   // reset
+		};
+
+		akira2 {
+			compatible = "google,akira";
+			status = "okay";
+			tpu-gpios = <&akira2 1 GPIO_ACTIVE_HIGH>, // pmic
+			            <&akira2 0 GPIO_ACTIVE_LOW>;   // reset
+		};
+
+		akira3 {
+			compatible = "google,akira";
+			status = "okay";
+			tpu-gpios = <&akira3 1 GPIO_ACTIVE_HIGH>, // pmic
+			            <&akira3 0 GPIO_ACTIVE_LOW>;   // reset
+		};
+
+		akira4 {
+			compatible = "google,akira";
+			status = "okay";
+			tpu-gpios = <&akira4 1 GPIO_ACTIVE_HIGH>, // pmic
+			            <&akira4 0 GPIO_ACTIVE_LOW>;   // reset
+		};
+
+		akira5 {
+			compatible = "google,akira";
+			status = "okay";
+			tpu-gpios = <&akira5 1 GPIO_ACTIVE_HIGH>, // pmic
+			            <&akira5 0 GPIO_ACTIVE_LOW>;   // reset
+		};
+	
+		akira6 {
+			compatible = "google,akira";
+			status = "okay";
+			tpu-gpios = <&akira6 1 GPIO_ACTIVE_HIGH>, // pmic
+			            <&akira6 0 GPIO_ACTIVE_LOW>;   // reset
+		};
+
+		akira7 {
+			compatible = "google,akira";
+			status = "okay";
+			tpu-gpios = <&akira7 1 GPIO_ACTIVE_HIGH>, // pmic
+			            <&akira7 0 GPIO_ACTIVE_LOW>;   // reset
+		};
+	};
+	
+	akira01_reset: akira01_reset {
+		compatible = "gpio-reset";
+		pinctrl-0 = <&pinctrl_akira01>;
+		pinctrl-names = "default";
+		reset-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
+		reset-delay-us = <150>;
+		#reset-cells = <0>;
+	};
+
+	akira23_reset: akira23_reset {
+		compatible = "gpio-reset";
+		pinctrl-0 = <&pinctrl_akira23>;
+		pinctrl-names = "default";
+		reset-gpios = <&gpio5 5 GPIO_ACTIVE_LOW>;
+		reset-delay-us = <150>;
+		#reset-cells = <0>;
+	};
+
+	akira45_reset: akira45_reset {
+		compatible = "gpio-reset";
+		pinctrl-0 = <&pinctrl_akira45>;
+		pinctrl-names = "default";
+		reset-gpios = <&gpio2 20 GPIO_ACTIVE_LOW>;
+		reset-delay-us = <150>;
+		#reset-cells = <0>;
+	};
+
+	akira67_reset: akira67_reset {
+		compatible = "gpio-reset";
+		pinctrl-0 = <&pinctrl_akira67>;
+		pinctrl-names = "default";
+		reset-gpios = <&gpio3 9 GPIO_ACTIVE_LOW>;
+		reset-delay-us = <150>;
+		#reset-cells = <0>;
+	};
 };
 
 
@@ -173,6 +269,30 @@
 		pinctrl_i2c_mux: pinctrl_mux_grp {
 			fsl,pins = <
 				MX8MQ_IOMUXC_NAND_CLE_GPIO3_IO5		0x18
+			>;
+		};
+
+		pinctrl_akira01: pinctrl_akira01_grp {
+			fsl,pins = <
+				MX8MQ_IOMUXC_GPIO1_IO10_GPIO1_IO10	0x19
+			>;
+		};
+
+		pinctrl_akira23: pinctrl_akira23_grp {
+			fsl,pins = <
+				MX8MQ_IOMUXC_SPDIF_EXT_CLK_GPIO5_IO5	0x19
+			>;
+		};
+
+		pinctrl_akira45: pinctrl_akira45_grp {
+			fsl,pins = <
+				MX8MQ_IOMUXC_SD2_WP_GPIO2_IO20	0x19
+			>;
+		};
+
+		pinctrl_akira67: pinctrl_akira67_grp {
+			fsl,pins = <
+				MX8MQ_IOMUXC_NAND_DATA03_GPIO3_IO9 0x19
 			>;
 		};
 	};
@@ -331,6 +451,7 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 		reg = <0x70>;
+		i2c-mux-idle-disconnect;
 		pinctrl-0 = <&pinctrl_i2c_mux>;
 		pinctrl-names = "default";
 
@@ -338,6 +459,94 @@
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		interrupt-controller;
 		#interrupt-cells = <2>;
+
+		i2c@0 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0>;
+
+			akira0: gpio@43 {
+				compatible = "pericom,pi4io";
+				reg = <0x43>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resets = <&akira01_reset>;
+			};
+
+			akira1: gpio@44 {
+				compatible = "pericom,pi4io";
+				reg = <0x44>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resets = <&akira01_reset>;
+			};
+		};
+
+		i2c@1 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <1>;
+
+			akira2: gpio@43 {
+				compatible = "pericom,pi4io";
+				reg = <0x43>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resets = <&akira23_reset>;
+			};
+
+			akira3: gpio@44 {
+				compatible = "pericom,pi4io";
+				reg = <0x44>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resets = <&akira23_reset>;
+			};
+		};
+
+		i2c@2 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <2>;
+
+			akira4: gpio@43 {
+				compatible = "pericom,pi4io";
+				reg = <0x43>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resets = <&akira45_reset>;
+			};
+
+			akira5: gpio@44 {
+				compatible = "pericom,pi4io";
+				reg = <0x44>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resets = <&akira45_reset>;
+			};
+		};
+
+		i2c@3 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <3>;
+
+			akira6: gpio@43 {
+				compatible = "pericom,pi4io";
+				reg = <0x43>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resets = <&akira67_reset>;
+			};
+
+			akira7: gpio@44 {
+				compatible = "pericom,pi4io";
+				reg = <0x44>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resets = <&akira67_reset>;
+			};
+		};
 	};
 };
 
