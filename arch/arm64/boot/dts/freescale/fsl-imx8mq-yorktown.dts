@@ -351,12 +351,6 @@
 			};
 		};
 	};
-
-	led_driver: ktd2027@30 {
-		compatible = "kinetic,ktd2026";
-		reg = <0x30>;
-		status = "okay";
-	};
 };
 
 &usb_dwc3_0 {
@@ -444,6 +438,19 @@
 		compatible = "ti,ina233";
 		reg = <0x4f>;
 		shunt-resistor = <20000>;
+	};
+
+
+	led_driver_1: ktd2027@30 {
+		compatible = "kinetic,ktd2026";
+		reg = <0x30>;
+		status = "okay";
+	};
+
+	led_driver_2: ktd2027@31 {
+		compatible = "kinetic,ktd2026";
+		reg = <0x31>;
+		status = "okay";
 	};
 
 	i2c-mux@70 {
